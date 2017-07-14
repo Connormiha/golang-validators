@@ -4,12 +4,12 @@ import (
 	"regexp"
 )
 
+var re = regexp.MustCompile(`^\d{13,19}$`)
+
 /*
  Validates payment card like MasterCard, Visa, etc.
 */
 func IsPaymentCard(value string) bool {
-	re, _ := regexp.Compile(`^\d{13,19}$`)
-
 	if !re.MatchString(value) {
 		return false
 	}
