@@ -1,25 +1,29 @@
 package main
 
 import (
-	"regexp"
+	"unicode"
 )
-
-var re = regexp.MustCompile(`^\d{13,19}$`)
 
 /*
  Validates payment card like MasterCard, Visa, etc.
 */
 func IsPaymentCard(value string) bool {
-	if !re.MatchString(value) {
+	var strLenght = len(value)
+	
+	if strLenght < 13 || strLenght > 19 {
 		return false
 	}
 
 	var sum uint8
 	var digit uint8
-	var isOddCardLength = len(value) % 2 == 0
+	var isOddCardLength = strLenght % 2 == 0
 	var isOdd bool
 
 	for i, c := range value {
+		if !unicode.IsDigit(c) {
+			return false
+		}
+
 		digit = uint8(c-'0')
 		isOdd = i % 2 == 0
 
